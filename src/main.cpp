@@ -1,7 +1,8 @@
 #include "mbed.h"
 
-#include "include/light_sensor.h"
-#include "include/hum_sensor.h"
+#include "rest.h"
+#include "light_sensor.h"
+#include "hum_sensor.h"
 
 
 void setup() {
@@ -11,6 +12,8 @@ void setup() {
 
 int main() {
     setup();
+
+    start_server();
 
     bool swap_light_humidity = true;
 
