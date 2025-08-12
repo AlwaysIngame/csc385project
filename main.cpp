@@ -15,16 +15,13 @@ Thread blethread;
 
 void setup() {
     light_init();
-    
-    //empty for now
     humid_init();
     temp_init();
 
     NetworkInterface *wifi = get_wifi();
     wifi->gethostbyname(REST_HOST, &addr);
     addr.set_port(80);
-    mqtt_init_client("Happiness", "41684370ga", "test.mosquitto.org", 1883, CURRENT_MACHINE);
-    //while(!get_ble()->hasInitialized());
+    mqtt_init_client("test.mosquitto.org", 1883, CURRENT_MACHINE);
     blethread.start(setup_ble);
 }
 

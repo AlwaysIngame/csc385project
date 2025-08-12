@@ -4,9 +4,7 @@
 #include "WiFiInterface.h"
 
 
-bool mqtt_init_client( const char *ssid,
-                       const char *password,
-                       const char *broker,
+bool mqtt_init_client( const char *broker,
                        int port,
                        const char *clientId );
 

@@ -18,9 +18,10 @@ WiFiInterface *get_wifi() {
         return nullptr;
     }
 
+    int rc;
     printf("Connecting to WiFi: %s...\n", WIFI_SSID);
-    if (wifi->connect(WIFI_SSID, WIFI_PW, NSAPI_SECURITY_WPA_WPA2) != 0) {
-        printf("WiFi connection failed!\n");
+    if ((rc = wifi->connect(WIFI_SSID, nullptr)) != 0) {
+        printf("WiFi connection failed! %d\n", rc);
         return nullptr;
     }
     printf("WiFi connected\n");
