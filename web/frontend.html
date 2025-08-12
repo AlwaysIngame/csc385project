@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sensor Data Display</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 2rem;
+    background: #f4f4f9;
+    color: #333;
+  }
+  h1 {
+    margin-bottom: 1rem;
+  }
+  .sensor-container {
+    display: flex;
+    gap: 2rem;
+  }
+  .sensor-box {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ccc;
+    flex: 1;
+    text-align: center;
+  }
+  .value {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+    color: #007BFF;
+  }
+  .error {
+    color: red;
+    margin-top: 1rem;
+  }
+</style>
+</head>
+<body>
+
+<h1>Live Sensor Data</h1>
+<div class="sensor-container">
+  <div class="sensor-box">
+    <div>Humidity (%)</div>
+    <div id="humidity" class="value">--</div>
+  </div>
+  <div class="sensor-box">
+    <div>Temperature (°C)</div>
+    <div id="temperature" class="value">--</div>
+  </div>
+  <div class="sensor-box">
+    <div>Light (lux)</div>
+    <div id="light" class="value">--</div>
+  </div>
+</div>
+
+<div id="error-msg" class="error"></div>
+
+<script>
+  async function fetchSensorData() {
+    try {
+      const response = await fetch('http://localhost/sensor/data');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+
+      document.getElementById('humidity').textContent =
+        data.humidity !== null ? data.humidity.toFixed(2) : '--';
+      document.getElementById('temperature').textContent =
+        data.temperature !== null ? data.temperature.toFixed(2) : '--';
+      document.getElementById('light').textContent =
+        data.light !== null ? data.light.toFixed(2) : '--';
+
+      document.getElementById('error-msg').textContent = '';
+    } catch (err) {
+      document.getElementById('error-msg').textContent = 'Error fetching sensor data.';
+      console.error(err);
+    }
+  }
+
+  // Initial fetch
+  fetchSensorData();
+  // Refresh every 5 seconds
+  setInterval(fetchSensorData, 5000);
+</script>
+
+</body>
+</html>
